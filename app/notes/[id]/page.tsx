@@ -16,9 +16,10 @@ export async function generateMetadata({
   params,
 }: NoteDetailsPageProps): Promise<Metadata> {
   const { id } = await params;
+  const note = await fetchNoteById(id);
 
-  const title = `Note ${id} | NoteHub`;
-  const description = "View and manage your note in NoteHub.";
+  const title = `${note.title} | NoteHub`;
+  const description = note.content.slice(0, 160);
 
   return {
     title,
@@ -32,7 +33,7 @@ export async function generateMetadata({
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
           width: 1200,
           height: 630,
-          alt: "NoteHub — Note details",
+          alt: `NoteHub — ${note.title}`,
         },
       ],
     },
